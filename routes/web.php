@@ -63,6 +63,22 @@ Route::get('view', function () {
     return view('welcome');
 });
 
+//二、控制器路由
+//Route::get('member/info', 'MemberController@info');//方式1
+//Route::get('member/info', ['uses' => 'MemberController@info']);//方式2
+Route::get('member/info', [//控制器路由别名
+    'uses' => 'MemberController@info',
+    'as' => 'memberinfo'
+]);
+//路由参数
+Route::get('member1/{id}', 'MemberController@info')->where('id','[0-9]+');
+Route::get('test1', 'StudentController@test1');//使用DB facade 实现CURD
+Route::get('query1', 'StudentController@query1');//使用查询构造器 实现增加
+Route::get('update1', 'StudentController@update1');//使用查询构造器 实现查询
+Route::get('delete1', 'StudentController@delete1');//使用查询构造器 实现删除
+Route::get('select1', 'StudentController@select1');//使用查询构造器 实现查询
+
+
 
 
 
