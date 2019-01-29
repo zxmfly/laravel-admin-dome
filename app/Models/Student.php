@@ -15,6 +15,24 @@ class Student extends Model
 
     //允许批量赋值的字段
     protected $fillable = ['name', 'age', 'sex'];
+    //https://laravel-china.org/articles/6096/the-real-meaning-of-laravel-mass-assignment-batch-assignment
+    /*
+    /
+   1、 // 赋值
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->password = bcrypt($request->password);
+    $user->save();
+    / 新建一个用户
+
+   2、 // Mass-Assignment 批量赋值
+    为了方便，我们可以使用 $request->all() 获取用户提交的所有表单数据：
+    $data = $request->all();   
+     // 新建一个用户
+    $user->create($data);
+    当使用批量，提交生成用户的时候，就要进行过滤，防止一些处理字段直接插表，比如密码，是否管理，是否激活
+
+    */
 
     //不允许批量赋值的字段
     protected $guarded = [];
