@@ -324,4 +324,31 @@ CREATE TABLE `users`  (
   UNIQUE INDEX `users_email_unique`(`email`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
-SET FOREIGN_KEY_CHECKS = 1;
+-- ----------------------------
+-- Table structure for p_users
+-- ----------------------------
+DROP TABLE IF EXISTS `p_users`;
+CREATE TABLE `p_users`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '账号',
+  `password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '登录密码',
+  `nick_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '昵称',
+  `phone_number` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '手机号码',
+  `email` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '邮箱',
+  `created_at` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
+  `updated_at` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '修改时间',
+  `is_forbid` tinyint(4) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否封号',
+  `is_activate` tinyint(4) UNSIGNED NOT NULL COMMENT '是否激活',
+  `remember_token` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '记住密码token',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `phone`(`phone_number`) USING BTREE,
+  UNIQUE INDEX `user_name`(`user_name`) USING BTREE,
+  INDEX `ctime`(`created_at`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of p_users
+-- ----------------------------
+INSERT INTO `p_users` VALUES (2, 'zxm123', '111111', '华源', '11111111111', '123@qq.com', 1548666042, 1548736597, 0, 1, '');
+INSERT INTO `p_users` VALUES (3, 'm1', '123456', 'momo', '12345678910', 'zxm@126.com', 1548750695, 1548754320, 0, 1, '');
+

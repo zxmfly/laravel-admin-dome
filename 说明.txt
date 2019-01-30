@@ -57,3 +57,17 @@
 
 5、grid() 方法：$grid->name('名字'); 把字段和说明对应，并列出
    form() 方法：// 添加text类型的input框 $form->text('name', '名字');
+
+6、后台数据导出扩展:
+首先安装好它：
+composer require maatwebsite/excel:~2.1.0
+php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
+
+然后新建导出控制器：
+use App\Exceptions\ExcelExpoter.php;
+
+最后，在需要的地方使用即可：
+$excel = new ExcelExpoter();
+$excel->setAttr(['id', '名字','年龄','性别','创建时间','修改时间'],
+    ['id', 'name','age','sex','created_at','updated_at']);
+$grid->exporter($excel);

@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Exceptions\ExcelExpoter;
 use App\Models\Student;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -89,6 +90,11 @@ class StudentController extends Controller
 
         $grid->created_at('创建时间');
         $grid->updated_at('修改时间');
+
+        $excel = new ExcelExpoter();
+        $excel->setAttr(['id', '名字','年龄','性别','创建时间','修改时间'],
+            ['id', 'name','age','sex','created_at','updated_at']);
+        $grid->exporter($excel);
 
 
         return $grid;

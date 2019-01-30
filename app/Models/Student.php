@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-        // 不更新此update_at字段
-//    const UPDATED_AT = null;
-        //指定表明
+    /*
+时间戳
+默认情况下，Eloquent 期望 created_at 和 updated_at 已经存在于数据表中，如果你不想要这些 Laravel 自动管理的数据列，在模型类中设置 $timestamps 属性为 false：*/
     protected $table = 'student';
     //指定id
     protected $primaryKey = 'id';
