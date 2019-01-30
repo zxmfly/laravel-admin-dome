@@ -9,8 +9,10 @@ class Student extends Model
     /*
 时间戳
 默认情况下，Eloquent 期望 created_at 和 updated_at 已经存在于数据表中，如果你不想要这些 Laravel 自动管理的数据列，在模型类中设置 $timestamps 属性为 false：*/
-    protected $table = 'student';
-    //指定id
+    
+    //指定表名
+    protected $table = 'student';//默认情况下，是模型名的复数（Student => students）
+    //指定id（主键），默认id、
     protected $primaryKey = 'id';
 
     //允许批量赋值的字段

@@ -71,17 +71,30 @@ class StudentController extends Controller
         //$students = DB::table($this->db)->where('id', '>', '1010')->get();
         //$students = DB::table($this->db)->whereRaw('id > ? and age > ?', [1005, 25])->get();//多个查询条件
         //pluck 取单个字段的值(lists 已经废弃)
-        $students = DB::table($this->db)->pluck('name');//pluck($column, $key = null);
-        //select 自定查询字段
+        $students = DB::table($this->db)->pluck('name');//pluck($column, $key = null);第二个参数为指定下标字段
+        //select 指定查询字段
         $students = DB::table($this->db)->select('name','age')->get();
         //chunk 分段获取，必须使用排序
         echo '<pre/>';
+        /*php 打印格式化显示利器 <pre>
+        当我们PHP调试的时候，用var_dump 或 print_r打印json数据或array数组时，html页面没有换行显示，看到的内容一大堆，不好定位。
+        输出前添加 <pre>，便可以自动格式化换行显示。*/
         DB::table($this->db)->orderBy('id','asc')->chunk(2, function($students){
             var_dump($students);
             return false;//终止查询，这里只查了一次,实际应用在条件判断中
         });
         dump($students);
+
+        //聚合查询
+        $count = DB::table($this->db)->count();
+        $max = DB::table($this->db)->max('age');
+        $min = DB::table($this->db)->min('age');
+        $avg = DB::table($this->db)->avg('age');
+        $sum = DB::table($this->db)->sum('age');
+
     }
+
+
 
 
 }
