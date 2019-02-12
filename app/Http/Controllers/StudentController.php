@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;//DB façade，没有使用Eloquent ORM -> 即模型
 
 class StudentController extends Controller
 {   public $db = 'student';
@@ -93,6 +94,65 @@ class StudentController extends Controller
         $sum = DB::table($this->db)->sum('age');
 
     }
+
+    //ORM
+    public function orm1(){
+        //返回的是模型的对象
+        //$all = Student::all();//查询全部记录
+        //$student = Student::find(1005);//查询一个记录by id
+        //$student = Student::findOrFail(1005);//查询一个记录,不存在就报错
+        //$students = Student::get();//查询所有数据
+        //$students = Student::first();//查询第一条
+        $students = Student::where('id','>','1005') //条件查询
+                    ->orderBy('age', 'desc')
+                    ->get();//first()
+
+        echo '<pre/>';
+        //当我们PHP调试的时候，用var_dump 或 print_r打印json数据或array数组时，
+        //html页面没有换行显示，看到的内容一大堆，不好定位。
+        //输出前添加 <pre>，便可以自动格式化换行显示。
+        Student::chunk(2, function($students){//一次查询2条记录
+            var_dump($students);
+        });
+
+        //聚合函数
+        $count = Student::count();
+        $max = Student::where('id', '<', '1100')->max('age');
+
+        //dump($students);
+    }
+
+    //orm 新增数据
+    public function orm2(){
+        //使用模型新增
+        //$student = new Student();
+        //$student->name = '叶圆圆';
+        //$student->age = 31;
+        //$student->sex = 2;//数据赋值
+        //$student->save();//将上面赋值的数据直接保存到数据库
+
+        //$student = Student::find(1015);
+        //echo $student->created_at;//自动格式化时间，需要在模型里面设置
+
+        //使用模型的create方法 ====>涉及到模型的批量新增数据
+        //$student = Student::create(
+        //    ['name'=>'赵海', 'age'=>55, 'sex'=>1]
+        //);
+
+        //firstOrCreate()以属性查找数据，没有就新增
+//        $student = Student::firstOrCreate(
+//            ['name'=>'jj','age'=>3,'sex'=>1]
+//        );
+
+        //firstOrNew()以属性查找数据，没有新建新的实例，需要不存就执行save();
+        $student = Student::firstOrNew(
+            ['name'=>'zjj','age'=>3,'sex'=>1]
+        );
+        $student->save();
+
+        dump($student);
+    }
+
 
 
 

@@ -78,6 +78,9 @@ Route::get('update1', 'StudentController@update1');//使用查询构造器 实�
 Route::get('delete1', 'StudentController@delete1');//使用查询构造器 实现删除
 Route::get('select1', 'StudentController@select1');//使用查询构造器 实现查询
 
+Route::get('orm1', 'StudentController@orm1');//Eloquent ORM 查询
+Route::get('orm2', 'StudentController@orm2');//Eloquent ORM 新增
+
 
 
 

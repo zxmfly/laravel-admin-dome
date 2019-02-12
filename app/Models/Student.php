@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     /*
-时间戳
-默认情况下，Eloquent 期望 created_at 和 updated_at 已经存在于数据表中，如果你不想要这些 Laravel 自动管理的数据列，在模型类中设置 $timestamps 属性为 false：*/
+    时间戳 默认情况下，Eloquent 期望 created_at 和 updated_at 已经存在于数据表中，
+    如果你不想要这些 Laravel 自动管理的数据列，在模型类中设置 $timestamps 属性为 false：*/
+    //protected $timestamps = false;
     
     //指定表名
     protected $table = 'student';//默认情况下，是模型名的复数（Student => students）
@@ -39,26 +40,46 @@ class Student extends Model
     //不允许批量赋值的字段
     protected $guarded = [];
 
-//laravel-admin 时间转换，提交的时候set需要转成时间戳，查询的时候get需要转成，日期格式（laravel-admin自动转）
-    //方法名称应与被转换字段名称相同
-    public function setCreatedAtAttribute($value)
-    {
-        $this->attributes['created_at'] = is_int($value) ? $value : strtotime($value);
-    }
- 
-    public function getCreatedAtAttribute()
-    {
-        return $this->attributes['created_at'] ? date('Y-m-d H:i:s', $this->attributes['created_at']) : '';
-    }
-
-    public function setUpdatedAtAttribute($value)
-    {
-        $this->attributes['updated_at'] = is_int($value) ? $value : strtotime($value);
-    }
- 
-    public function getUpdatedAtAttribute()
-    {
-        return $this->attributes['updated_at'] ? date('Y-m-d H:i:s', $this->attributes['updated_at']) : '';
+    /**
+     * 模型日期列的存储格式
+     *
+     * @var string
+     */
+    protected $dateFormat = 'U';
+    //和下面方式效果一样
+    public function getDateFormat(){
+        return time();
     }
 
+    /*在不做处理的情况下，模型取出来的数据会自动格式化
+    $student = Student::find(1015);
+    echo $student->created_at; ===> 2019-02-12 23:17:34
+    那么就需要处理：
+    public function asDateTime($value){
+        return $value;//不做任何处理。
+    }*/
+
+    /*
+    //laravel-admin 时间转换，提交的时候set需要转成时间戳，查询的时候get需要转成，日期格式（laravel-admin自动转）
+        //方法名称应与被转换字段名称相同
+        public function setCreatedAtAttribute($value)
+        {
+            $this->attributes['created_at'] = is_int($value) ? $value : strtotime($value);
+        }
+
+        public function getCreatedAtAttribute()
+        {
+            return $this->attributes['created_at'] ? date('Y-m-d H:i:s', $this->attributes['created_at']) : '';
+        }
+
+        public function setUpdatedAtAttribute($value)
+        {
+            $this->attributes['updated_at'] = is_int($value) ? $value : strtotime($value);
+        }
+
+        public function getUpdatedAtAttribute()
+        {
+            return $this->attributes['updated_at'] ? date('Y-m-d H:i:s', $this->attributes['updated_at']) : '';
+        }
+    */
 }
