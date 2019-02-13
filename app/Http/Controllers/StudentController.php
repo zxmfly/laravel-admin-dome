@@ -153,6 +153,43 @@ class StudentController extends Controller
         dump($student);
     }
 
+    public function orm3(){
+        //通过模型修改数据
+        /*
+        $student = Student::find(1005);
+        $student->name = $student->name.'_改';
+        $bool = $student->save();
+        */
+        //结合查询语句，批量更新 (返回更新的行数)
+        $student = Student::where('id', '>', '1015')->update(
+            ['age'=>40]
+        );
+        dump($student);
+    }
+
+    public function orm4(){
+        //通过模型删除
+//        $student = Student::find(1005);
+//        $bool = $student->delete();
+//        dump($student);
+        //通过主键删除(返回删除数量)
+        //$num = Student::destroy(1011);//1|1,2,3,4|[1,2,3,4]
+
+        //通过条件批量删除数据
+        $num = Student::where('id', '>', '1010')->delete();
+        dump($num);
+
+
+    }
+
+    //模板继承
+    public function section1(){
+        return view('student.section1');
+    }
+
+
+
+
 
 
 

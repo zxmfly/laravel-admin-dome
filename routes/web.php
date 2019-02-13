@@ -80,6 +80,10 @@ Route::get('select1', 'StudentController@select1');//使用查询构造器 实�
 
 Route::get('orm1', 'StudentController@orm1');//Eloquent ORM 查询
 Route::get('orm2', 'StudentController@orm2');//Eloquent ORM 新增
+Route::get('orm3', 'StudentController@orm3');//Eloquent ORM 修改
+Route::get('orm4', 'StudentController@orm4');//Eloquent ORM 删除
+
+Route::get('section1', 'StudentController@section1');//blade 模板继承
 
 
 

@@ -57,29 +57,24 @@ class Student extends Model
     那么就需要处理：
     public function asDateTime($value){
         return $value;//不做任何处理。
-    }*/
-
-    /*
+    }
     //laravel-admin 时间转换，提交的时候set需要转成时间戳，查询的时候get需要转成，日期格式（laravel-admin自动转）
         //方法名称应与被转换字段名称相同
         public function setCreatedAtAttribute($value)
         {
             $this->attributes['created_at'] = is_int($value) ? $value : strtotime($value);
         }
-
-        public function getCreatedAtAttribute()
-        {
-            return $this->attributes['created_at'] ? date('Y-m-d H:i:s', $this->attributes['created_at']) : '';
-        }
-
         public function setUpdatedAtAttribute($value)
         {
             $this->attributes['updated_at'] = is_int($value) ? $value : strtotime($value);
         }
-
-        public function getUpdatedAtAttribute()
-        {
-            return $this->attributes['updated_at'] ? date('Y-m-d H:i:s', $this->attributes['updated_at']) : '';
-        }
     */
+    public function getCreatedAtAttribute()
+    {
+        return $this->attributes['created_at'] ? date('Y-m-d H:i:s', $this->attributes['created_at']) : '';
+    }
+    public function getUpdatedAtAttribute()
+    {
+        return $this->attributes['updated_at'] ? date('Y-m-d H:i:s', $this->attributes['updated_at']) : '';
+    }
 }
