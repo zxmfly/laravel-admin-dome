@@ -85,6 +85,8 @@ Route::get('orm4', 'StudentController@orm4');//Eloquent ORM 删除
 
 Route::get('section1', 'StudentController@section1');//blade 模板继承
 
+Route::get('urlTest', ['as'=> 'url', 'uses'=>'StudentController@urlTest']);//blade 模板中的url
+
 
 
 

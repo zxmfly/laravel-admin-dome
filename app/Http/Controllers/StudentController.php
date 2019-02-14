@@ -184,7 +184,18 @@ class StudentController extends Controller
 
     //模板继承
     public function section1(){
-        return view('student.section1');
+        $name = '增花园';
+        $array = ['zxm','增花园'];
+        $students = Student::get();
+        return view('student.section1', [
+            'name' => $name,
+            'arr' => $array,
+            'students' => $students
+        ]);
+    }
+
+    public function urlTest(){
+        return 'urlTest:'.route('url');
     }
 
 

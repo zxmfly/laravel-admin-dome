@@ -14,9 +14,9 @@
     }
     .main {
         width: 1000px;
-        height: 300px;
+        height: 500px;
         margin:0 auto;
-        margin-top: 15px;
+        margin-top: 5px;
         clear: both;
     }
     .main .sidebar {
@@ -28,7 +28,7 @@
     }
     .main .content {
         float: right;
-        width: 75%;
+        width: 79%;
         height: inherit;
         background: #f5f5f5;
         border: 1px solid #ddd;
@@ -37,7 +37,7 @@
         width: 1000px;
         height: 150px;
         margin:0 auto;
-        margin-top: 15px;
+        margin-top: 5px;
         background: #f5f5f5;
         border: 1px solid #ddd;
     }
