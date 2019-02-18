@@ -199,21 +199,32 @@ class StudentController extends Controller
         return 'urlTest:'.route('url');
     }
 
+    
+    public function request1(Request $request){
+        //1\取值
+        //dump($request->input('name'));//取name参数
+        //dump($request->input('name','zxm'));//取name参数，没有的情况下默认zxm
+        if($request->has('name')){
+           echo $request->input('name');
+        }else{
+            echo '缺少name参数';
+        }
 
+        dump($request->all());//获取所有参数
 
+        //判断请求类型
+        echo $request->method();//获取当前url的请求方式
 
+        echo $request->isMethod('get') ? '是get' : '否';
 
+        dump($request->ajax());//判断是否是ajax请求
 
+        dump($request->is('student/*'));//url规则是否满足
 
+        //获取当前的url
+        echo $request->url();
 
-
-
-
-
-
-
-
-
+    }
 
     public function session1(Request $request){
         //获取重定向快闪数据 response

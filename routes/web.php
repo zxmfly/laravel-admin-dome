@@ -87,8 +87,7 @@ Route::get('section1', 'StudentController@section1');//blade 模板继承
 
 Route::get('urlTest', ['as'=> 'url', 'uses'=>'StudentController@urlTest']);//blade 模板中的url
 
-
-
+Route::get('student/request1', ['uses'=>'StudentController@request1']);//controller之request
 
 //app/kernel/middlewareGroups=>web=>StartSession.class
 Route::group(['middleware'=>'web'], function(){//session start
