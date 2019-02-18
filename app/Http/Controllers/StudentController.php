@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;//DB façade，没有使用Eloquent ORM -> 即模型
+use Illuminate\Support\Facades\Session;
 
 class StudentController extends Controller
 {   public $db = 'student';
@@ -203,6 +204,133 @@ class StudentController extends Controller
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+    public function session1(Request $request){
+        //获取重定向快闪数据 response
+        $rs = Session::get('msg', 'default');
+        $back = Session::get('abc') ?? 1;
+        if($rs == 'back'){
+            Session::put('abc', 1+$back);
+            return redirect()->back();//返回上级页面
+        }else{
+            echo $rs;
+            return ;
+        }
+
+        //1、http:request()->session();
+        $request->session()->put('key1', 'value1');//存储一个key1
+        $v1 = $request->session()->get('key1');//获取
+
+        //2\session的辅助函数：session()
+        session()->put('key2', 'value2');
+        session()->get('key2');
+
+        //3\Session类
+        Session::put('key3', 'value3');
+        Session::get('key3');
+        Session::get('key4', 'default');
+
+        //session 数组形式存值
+        Session::put(['key5' => 'value5']);
+
+        //把数据存入session数组中
+        Session::push('student', 'zxm1');
+        Session::push('student', 'zxm2');
+        $student = Session::get('student');
+
+        //把session数据取完后。立即注销session
+        $student = Session::pull('student', 'default');
+
+        //取出所有session
+        $student = Session::all();
+
+        //判断某个key是否存在
+        if(Session::all('student')){
+            echo '不存在student数据';
+        }else{
+            dump(Session::all());
+        }
+
+        //删除某个key
+        Session::forget('key1');
+
+        //清空所有
+        Session::flush();
+
+        dump(Session::all());
+
+        //暂存：第一次访问存在，第二次就不存在了
+        Session::flash('key-flash', 'value-flash');
+        echo Session::get('key-flash');
+
+    }
+
+
+    /**
+     * 响应 Response
+     * 类型：字符串，视图，json,重定向
+     */
+    public function response($id=''){
+        //响应 json
+        $rs = [
+            'code'  => 0,
+            'msg'   => 'success',
+            'data'  => 'zxm'
+        ];
+        //return response()->json($rs);
+
+        //重定向
+        //return redirect('session1');
+
+        //重定向传数据（z暂存数据）
+        //return redirect('session1')->with('msg', '我是快闪数据，刷新我就不存在了');
+
+        //action(),方法和控制器
+        //return redirect()->action('StudentController@session1')->with('msg', '我是快闪数据，刷新我就不存在了');
+
+        //route()，路由别名
+        $msg = $id ? $id : '我是快闪数据，刷新我就不存在了';
+        if(empty($id)){
+            Session::forget('abc');
+        }
+        $rs = Session::get('abc');
+        if(empty($rs))
+            return redirect()->route('sess1')->with('msg', $msg);
+        else{
+            echo '重定向，返回并停止'.$rs;
+        }
+
+        
+
+        //back()， 返回上级页面
+        //return redirect()->back();
+
+    }
+
+    //中间件使用
+    /*
+     * 新建中间件类： App\Http\Middleware; Activity::class
+     * 注册中间件：App\Http\Kernel;$routeMiddleware[];只需要注册路由中间件即可
+     * */
+    public function activity0(){
+        echo "活动即将开启，敬请期待";
+    }
+    public function activity1(){
+        echo "活动开始，感谢您的而参与1";
+    }
+    public function activity2(){
+        echo "互动开始，活动互动进行中2";
+    }
 
 
 }

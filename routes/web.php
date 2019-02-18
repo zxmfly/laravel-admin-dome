@@ -90,6 +90,26 @@ Route::get('urlTest', ['as'=> 'url', 'uses'=>'StudentController@urlTest']);//bla
 
 
 
+//app/kernel/middlewareGroups=>web=>StartSession.class
+Route::group(['middleware'=>'web'], function(){//session start
+    Route::any('session1', ['as'=> 'sess1','uses'=>'StudentController@session1']);// session
+});
+
+Route::any('response/{id?}', ['uses'=>'StudentController@response']);// 控制器响应：response
+
+//路由中间件
+Route::any('activity0', ['uses'=>'StudentController@activity0']);// 展示
+Route::group(['middleware'=>'activity'], function(){//中间件判断活动是否开始，否则进入展示页面
+    Route::any('activity1', ['uses'=>'StudentController@activity1']);// 活动开始
+    Route::any('activity2', ['uses'=>'StudentController@activity2']);// 活动互动
+});
+
+
+
+
+
+
+
 
 
 
