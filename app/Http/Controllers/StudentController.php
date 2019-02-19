@@ -145,7 +145,7 @@ class StudentController extends Controller
 //            ['name'=>'jj','age'=>3,'sex'=>1]
 //        );
 
-        //firstOrNew()以属性查找数据，没有新建新的实例，需要不存就执行save();
+        //firstOrNew()以属性查找数据，没有新建新的实例，需要存就执行save();
         $student = Student::firstOrNew(
             ['name'=>'zjj','age'=>3,'sex'=>1]
         );
@@ -320,9 +320,6 @@ class StudentController extends Controller
         else{
             echo '重定向，返回并停止'.$rs;
         }
-
-        
-
         //back()， 返回上级页面
         //return redirect()->back();
 
@@ -343,5 +340,15 @@ class StudentController extends Controller
         echo "互动开始，活动互动进行中2";
     }
 
+
+    //案例练习
+    public function index(){
+        //$students = Student::get();
+        //分页显示 //User::where('votes', '>', 100)->simplePaginate(15);
+        $students = Student::paginate(5);// DB::table('users')->paginate(15);
+        return view('student.index',[
+            'students' => $students,
+        ]);
+    }
 
 }

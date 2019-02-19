@@ -103,7 +103,8 @@ Route::group(['middleware'=>'activity'], function(){//中间件判断活动是�
     Route::any('activity2', ['uses'=>'StudentController@activity2']);// 活动互动
 });
 
-
+//案例开始
+Route::get('student/index', ['uses'=>'StudentController@index']);
 
 
 
