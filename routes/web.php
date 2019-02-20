@@ -105,7 +105,11 @@ Route::group(['middleware'=>'activity'], function(){//中间件判断活动是�
 
 //案例开始
 Route::get('student/index', ['uses'=>'StudentController@index']);
-
+Route::any('student/create', ['uses'=>'StudentController@create']);
+Route::post('student/save', ['uses'=>'StudentController@save']);
+Route::any('student/update/{id}', ['uses'=>'StudentController@update'])->where('id','[0-9]+');
+Route::get('student/detail/{id}', ['uses'=>'StudentController@detail']);
+Route::get('student/delete/{id}', ['uses'=>'StudentController@delete']);
 
 
 

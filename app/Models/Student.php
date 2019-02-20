@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
+    const SEX_NU = 0;
+    const SEX_M = 1;
+    const SEX_W = 2;
+
     /*
     时间戳 默认情况下，Eloquent 期望 created_at 和 updated_at 已经存在于数据表中，
     如果你不想要这些 Laravel 自动管理的数据列，在模型类中设置 $timestamps 属性为 false：*/
@@ -38,7 +42,7 @@ class Student extends Model
     */
 
     //不允许批量赋值的字段
-    protected $guarded = [];
+    protected $guarded = ['name','age','sex'];
 
     /**
      * 模型日期列的存储格式
@@ -76,5 +80,22 @@ class Student extends Model
     public function getUpdatedAtAttribute()
     {
         return $this->attributes['updated_at'] ? date('Y-m-d H:i:s', $this->attributes['updated_at']) : '';
+    }
+
+
+    //自定义模型方法
+    public function getSex($id = 'null'){
+
+        $arr = [
+            self::SEX_NU => '未知',
+            self::SEX_M => '男',
+            self::SEX_W => '女'
+        ];
+
+        if( $id !== 'null' ){
+            return array_key_exists($id, $arr) ? $arr[$id] : $arr[self::SEX_NU];
+        }
+
+        return $arr;
     }
 }

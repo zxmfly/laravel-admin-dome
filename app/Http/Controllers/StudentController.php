@@ -345,10 +345,148 @@ class StudentController extends Controller
     public function index(){
         //$students = Student::get();
         //分页显示 //User::where('votes', '>', 100)->simplePaginate(15);
-        $students = Student::paginate(5);// DB::table('users')->paginate(15);
+        $students = Student::paginate(20);// DB::table('users')->paginate(15);
         return view('student.index',[
             'students' => $students,
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function create(Request $request){
+        if($request->isMethod('post')) {
+            //1、控制器验证，失败会返回到上一个页面
+            /*
+            $this->validate($request,
+                [
+                    'Student.name'=>'required|min:2|max:20',
+                    'Student.age'=>'required|integer',
+                    'Student.sex'=>'required|integer',
+                ],
+                [
+                    'required'=>':attribute 为必填项',
+                    'min'=>':attribute 长度最短为2',
+                    'max'=>':attribute 长度最大为20',
+                    'integer'=>':attribute 必须为整数',
+                ],
+                [
+                    'Student.name'=>'姓名',
+                    'Student.age'=>'年龄',
+                    'Student.sex'=>'性别',
+                ]
+            );*///验证失败，会把错误抛出到全局对象，$errors
+
+            //2、validator类验证
+            $validator = \Validator::make($request->input(),
+                [
+                    'Student.name'=>'required|min:2|max:20',
+                    'Student.age'=>'required|integer',
+                    'Student.sex'=>'required|integer',
+                ],
+                [
+                    'required'=>':attribute 为必填项',
+                    'min'=>':attribute 长度最短为2',
+                    'max'=>':attribute 长度最大为20',
+                    'integer'=>':attribute 必须为整数',
+                ],
+                [
+                    'Student.name'=>'姓名',
+                    'Student.age'=>'年龄',
+                    'Student.sex'=>'性别',
+                ]
+            );
+
+            if($validator->fails()){//withInput将数据保持，默认全部 ==》 页面{{old（‘key）['key]}}
+                return redirect()->back()->withErrors($validator)->withInput();//手动注册全局错误信息
+            }
+
+            $data = $request->input('Student');
+            $rs = Student::create($data);//使用了create批量赋值，就要在模型里面加入批量保存字段
+            if ($rs) {
+                return redirect('student/index')->with('success','添加成功');//session，暂存数据
+            } else {
+                return redirect()->back();
+            }
+        }
+
+        //将模型数据传到模板
+        $student = new Student();
+        return view('student.create',['student'=>$student]);
+    }
+
+    public function save(Request $request){//也可以直接在展示页面保存
+        $data = $request->input('Student');
+
+        $student = new Student();
+        $student->name = $data['name'];
+        $student->age = $data['age'];
+        $student->sex = $data['sex'];
+        $rs = $student->save();
+        if($rs){
+            return redirect('student/index');
+        }else{
+            return redirect()->back();
+        }
+
+    }
+
+    //修改
+    public function update(Request $request, $id){
+        $student = Student::find($id);
+        if($request->isMethod('post')){
+            $data = $request->input('Student');
+            $this->validate($request,
+                [
+                    'Student.name'=>'required|min:2|max:20',
+                    'Student.age'=>'required|integer',
+                    'Student.sex'=>'required|integer',
+                ],
+                [
+                    'required'=>':attribute 为必填项',
+                    'min'=>':attribute 长度最短为2',
+                    'max'=>':attribute 长度最大为20',
+                    'integer'=>':attribute 必须为整数',
+                ],
+                [
+                    'Student.name'=>'姓名',
+                    'Student.age'=>'年龄',
+                    'Student.sex'=>'性别',
+                ]
+            );
+
+            $student->name = $data['name'];
+            $student->age = $data['age'];
+            $student->sex = $data['sex'];
+            $rs = $student->save();
+            if($rs){
+                return redirect('student/index')->with('success', '修改成功-'.$id);
+            }else{
+                return redirect()->back();
+            }
+        }
+
+
+
+        return view('student.update',['student'=>$student]);
+    }
+
+    //详情
+    public function detail($id){
+
+        $student = Student::find($id);
+        return view('student.detail',['student'=>$student]);
+    }
+
+    //删除
+    public function delete($id){
+        $student = Student::find($id);
+        $bool = $student->delete();
+        if($bool)
+            return redirect('student/index')->with('success', '删除成功');
+        else
+            return redirect()->back()->with('error', '删除失败');
     }
 
 }
