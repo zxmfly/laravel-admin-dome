@@ -77,3 +77,29 @@ $excel = new ExcelExpoter();
 $excel->setAttr(['id', '名字','年龄','性别','创建时间','修改时间'],
     ['id', 'name','age','sex','created_at','updated_at']);
 $grid->exporter($excel);
+
+7、laravel 数据迁移， migrate
+php artisan migrate //执行，将database下的表，新建
+
+====新建迁移文件
+    （1、新建一个数据表的迁移文件。
+          php artisan make:migration create_students_table
+          --table  和 --create 参数可以用来指定数据表名称，以及迁移文件是否要建立新的数据表。
+
+          创建student表的迁移文件
+            php artisan make:migration create_student_table --create=student
+
+    （2、生成模型的同时生成迁移文件。
+          php artisan make:model Models/Student  -m
+
+          创建一个文章的模型和迁移文件
+          php artisan make:model Models/Article  -m
+
+=====填充数据文件
+    要生成一个填充器，可以通过 Artisan 命令 make:seeder。所有框架生成的填充器都位于 database/seeds 目录：
+    php artisan make:seeder UsersTableSeeder
+
+    执行单个填充文件
+    php artisan db:seed  --class=StudentTableSeeder
+    批量执行填充文件
+    php artisan db:seed  //在seeds/DatabaseSeeder下增加

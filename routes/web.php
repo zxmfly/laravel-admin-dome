@@ -111,19 +111,8 @@ Route::any('student/update/{id}', ['uses'=>'StudentController@update'])->where('
 Route::get('student/detail/{id}', ['uses'=>'StudentController@detail']);
 Route::get('student/delete/{id}', ['uses'=>'StudentController@delete']);
 
+//使用artisan 创建
+//php artisan make:auth
+Auth::routes();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Route::get('/home', 'HomeController@index')->name('home');
