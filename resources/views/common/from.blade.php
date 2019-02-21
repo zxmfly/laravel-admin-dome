@@ -1,5 +1,6 @@
 <form class="form-horizontal" method="post" action=""><!--{{url('student/save')}}这个是提交到保存方法 -->
-    <input type="hidden" name="_token" value="{{csrf_token()}}">
+    <!--<input type="hidden" name="_token" value="{{csrf_token()}}"> -->
+    {{ csrf_field() }}
     <div class="form-group">
         <label for="name" class="col-sm-2 control-label">姓名</label>
 

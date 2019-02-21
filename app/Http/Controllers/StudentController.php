@@ -6,6 +6,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;//DB façade，没有使用Eloquent ORM -> 即模型
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {   public $db = 'student';
@@ -487,6 +488,30 @@ class StudentController extends Controller
             return redirect('student/index')->with('success', '删除成功');
         else
             return redirect()->back()->with('error', '删除失败');
+    }
+
+    //文件上传
+    public function upload(Request $request){
+        $img = '';
+        if($request->isMethod('post')){
+            $file = $request->file('source');
+            $folder = 'Uploads/'.date('Ymd');
+            //文件是否上传成功
+            if($file->isValid()){
+                $old_name = $file->getClientOriginalName();//原文件名
+                $ext = $file->getClientOriginalExtension();//扩展（后缀）
+                $type = $file->getMimeTye();//文件类型
+                $realPath = $file->getRealPath();//临时文件的路径
+
+                $filname = date('ymdHis') . uniqid() . '.' .$ext;
+                $bool = Storage::disk('public')->put($folder.'/'.$filname, file_get_contents($realPath));
+
+                $img = '/storage/'.$folder.'/'.$filname;
+                //php artisan storage:link 需要在public下面建立，storage/app/public/的软连接，才能在页面调用图片
+            }
+        }
+
+        return view('student.upload', ['img' => $img]);
     }
 
 }

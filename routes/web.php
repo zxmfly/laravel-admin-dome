@@ -116,3 +116,7 @@ Route::get('student/delete/{id}', ['uses'=>'StudentController@delete']);
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+//文件上传
+Route::any('student/upload', ['uses'=>'StudentController@upload']);
