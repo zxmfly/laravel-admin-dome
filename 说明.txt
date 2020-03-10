@@ -1,9 +1,8 @@
-﻿mysql：生成migration文件 = php artisan make:migration comment(描述) --create =tablenames
+mysql：生成migration文件 = php artisan make:migration comment(描述) --create =tablenames
 (需要对表生成新的一个列的话)php artisan make:migration comment(描述) --table=tablenames
 回退 migration = php artisan migrate：rollback
 执行 migration = php artisan migrate
 
-测试连接
 
 一、快速搭建：首先确保安装好了laravel，并且数据库连接设置正确。
 1、安装laravel5.5
